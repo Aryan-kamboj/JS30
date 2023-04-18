@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scoped CSS Variables and JS</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+  <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
+
+  <div class="controls">
+    <label for="spacing">Spacing:</label>
+    <input oninput=" set_image()" id="spacing" type="range" name="spacing" min="10" max="200" value="10" data-sizing="px">
+
+    <label for="blur">Blur:</label>
+    <input oninput=" set_image()" id="blur" type="range" name="blur" min="0" max="25" value="10" data-sizing="px">
+
+    <label for="base">Base Color</label>
+    <input oninput=" set_image()" id="base" type="color" name="base" value="#ffc600">
+  </div>
+
+  <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
+
+  <style>
+
+    :root{
+      --padding:10px;
+      --color: #ffc600;
+      --blur:10px; 
+    }
+    img{
+      padding: var(--padding);
+      background-color: var(--color);
+      filter: blur(var(--blur));
+    }
+    body {
+      text-align: center;
+      background: #193549;
+      color: white;
+      font-family: 'helvetica neue', sans-serif;
+      font-weight: 100;
+      font-size: 50px;
+    }
+    .hl{
+      color: var(--color);
+    }
+
+    /*
+      misc styles, nothing to do with CSS variables
+    */
+    .controls {
+      margin-bottom: 50px;
+    }
+
+    input {
+      width: 100px;
+    }
+  </style>
+
+  <script>
+    function set_image(){
+      // console.log("flag");
+      let root = document.querySelector(":root")
+      let padding = document.getElementById("spacing").value;
+      let blur = document.getElementById("blur").value;
+      let color = document.getElementById("base").value;
+      console.log(color);
+      root.style.setProperty("--padding",`${padding}px`);
+      root.style.setProperty("--color",color);
+      root.style.setProperty("--blur",`${blur}px`);
+    }
+    
+  </script>
+
+</body>
+</html>
