@@ -78,6 +78,7 @@
     // 4. How many years did all the inventors live all together?
       
       let accumulated_age = inventors.reduce((accumulator,inventor) => accumulator+ inventor.passed - inventor.year,0);
+      // reduce((where_reduction_is_accumulated , object_being_accumulated) => function prforming something , innitial value of accumulator)
       console.log(accumulated_age);
 
     // 5. Sort the inventors by years lived
@@ -88,19 +89,36 @@
       // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
     // let array_of_de = fetch("https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris");
-      let container_div = document.querySelector(".mw-category");
-      console.log(container_div);
-      let array_a = Array.from(container_div.querySelectorAll("a"));
-      let array_de = array_a.map(array_links=>array_links.textContent).filter(streetName => streetName.includes("de"));
-      console.log(array_de);
+      // let container_div = document.querySelector(".mw-category");
+      // console.log(container_div);
+      // let array_a = Array.from(container_div.querySelectorAll("a"));
+      // let array_de = array_a.map(array_links=>array_links.textContent).filter(streetName => streetName.includes("de"));
+      // console.log(array_de);
       // console.log(array_of_de);
     // 7. sort Exercise
     // Sort the people alphabetically by last name
-
+      let people_sort = people.sort((a,b)=>{
+        let [first_a,last_a]=a.split(", ");
+        let [first_b,last_b]=b.split(", ");
+        return last_a > last_b ? 1 : -1});
+      console.log(people_sort);
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
-
+        let reduced_data = data.reduce((obj,data)=>{
+          if(!obj[data])
+          {
+            obj[data] = 0;
+          }
+          obj[data]++;
+          return obj;
+        },{})
+        // we can argue why obj.data is not working here because data is not a propertie inside obj
+        // data is just a variable storing the propertie name
+        // So, the main difference between the two notations is that dot notation is
+        // used when the property name is a valid identifier, whereas bracket notation 
+        // is used when the property name is not a valid identifier or when the property name is stored in a variable.
+        console.log(reduced_data);
   </script>
 </body>
 </html>
