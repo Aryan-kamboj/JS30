@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+<script>
+
+const suggestions = document.querySelector(".suggestions");
+const key = document.querySelector(".search");
+key.addEventListener("keyup",search_fn);
+
+var cities = [];
+const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+fetch(endpoint)
+.then((result)=>result.json())
+.then(data=>{
+  //converting data to an array because we need to use .filter() on the data
+  cities.push(...data)
+});
+
+function search_fn()
+{
+  let result;
+  let search = key.value
+  let regex = new RegExp (search,"gi");
+  // console.log(regex);
+  result = cities.filter((place)=>{
+    return place.city.match(regex)||place.state.match(regex);
+  })
+  show_fn(result,regex,search);
+};
+function numberWithComma(num)
+{
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function show_fn(result,regex,exp){
+  let html = result.map((city)=>{
+    const cityName = city.city.replace(regex, `<span class="hl">${exp}</span>`);
+    const stateName = city.state.replace(regex, `<span class="hl">${exp}</span>`);
+    console.log(cityName);
+    string = `<li> 
+                  <span class="name">${cityName},${stateName}</span>
+                  <span class="population">${numberWithComma(city.population)}</span>
+              </li>`
+    return string;
+  }).join('');
+  suggestions.innerHTML= html;
+}
+
+
+</script>
+</body>
+</html>
